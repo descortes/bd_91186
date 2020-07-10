@@ -54,3 +54,6 @@ INSERT INTO `tarea5`.`servicio` (`nombre`) VALUES ('Enfermería');
 INSERT INTO `tarea5`.`servicio` (`nombre`) VALUES ('Pediatría');
 
 
+-- Atención
+insert into atencion (idServ, dniMed,   duracionTurno)
+values               (1,      33537549, 15)
