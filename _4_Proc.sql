@@ -27,7 +27,7 @@ begin
     
     /* Abro cursor. */
 	OPEN cursorHorario;
-    cursorLoop: LOOP
+    cursorLoop: LOOP    
 		FETCH cursorHorario INTO hDesde, hHasta;
         
         /* Por workaround de un bug. */
@@ -37,12 +37,14 @@ begin
       
 		set @horaTurno = hDesde;
       
+		set it = 0; /* Reseteo el iterador. */ 
+        
 		/* Itero por la cantidad de días. */    
 		diasWhile : WHILE it < cantidadDias DO
 			/* Por cada día, genero los turnos correspondientes. */
 			set @diaTurno = DATE_ADD(@primerDia, INTERVAL it DAY);                        			
             
-            creaWhile : while @horaTurno < hHasta do            
+            creaWhile : while @horaTurno < hHasta do            			
 				insert into turno (idAt, fecha, hora, dniPac)
 				values            (idAtencion, @diaTurno, @horaTurno, null);
 				            
