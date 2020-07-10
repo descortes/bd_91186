@@ -34,8 +34,17 @@ de turnos de la atención y la horaHasta del horario de atención...
 
 --------------------------------------------------------------------------------------------------------------
 
+Resolucion:
 
+Para sp_CreaTurnos dado un idAt crea turnos segun la cantidad de dias pasados por parametro.
+Al momento de crear los turnos de un medico,
+1. Se valida que los turnos esten dentro del horario de atencion del medico y cada turno tiene una duracion fija segun el valor del campo *duracionTurno* de la tabla **Atencion**.
+2. Si un medico no tiene turnos asignados (no existe en la tabla **Turnos**), entonces se crean los turnos desde el dia de la fecha actual.
+3. Si un medico tiene turnos asignados y desea agregar mas, se toma la ultima fecha de referencia en la tabla **Turno** y se agregan los nuevos. 
 
+```sql
+call sp_CreaTurnos(1 /* id-atencion */, 1 /* d�as */);
+```
 
 "Glosario""
 
