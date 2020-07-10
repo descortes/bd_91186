@@ -57,3 +57,7 @@ INSERT INTO `tarea5`.`servicio` (`nombre`) VALUES ('Pediatría');
 -- Atención
 insert into atencion (idServ, dniMed,   duracionTurno)
 values               (1,      33537549, 15)
+
+-- Horarios de atención.
+insert into horarioatencion (idAt, horaDesde, horaHasta) values (1, '09:00:00', '12:00:00')
+insert into horarioatencion (idAt, horaDesde, horaHasta) values (1, '14:00:00', '16:00:00')
