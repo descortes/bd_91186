@@ -32,20 +32,25 @@ begin
         
         /* Por workaround de un bug. */
 		IF done = 1 THEN LEAVE cursorLoop; END IF;
-        
-        select hDesde, hHasta;
+      
+		select hDesde, hHasta;
+      
+		set @horaTurno = hDesde;
       
 		/* Itero por la cantidad de días. */    
-		WHILE it < cantidadDias DO
+		diasWhile : WHILE it < cantidadDias DO
 			/* Por cada día, genero los turnos correspondientes. */
-			set @diaTurno = DATE_ADD(@primerDia, INTERVAL it DAY);            
-			
-			insert into turno (idAt, fecha, hora, dniPac)
-			values            (idAtencion, @diaTurno, hDesde, null);
-			
+			set @diaTurno = DATE_ADD(@primerDia, INTERVAL it DAY);                        			
+            
+            creaWhile : while @horaTurno < hHasta do            
+				insert into turno (idAt, fecha, hora, dniPac)
+				values            (idAtencion, @diaTurno, @horaTurno, null);
+				            
+				set @horaTurno = ADDTIME(@horaTurno, '00:05:00');
+            end while creaWhile;
+            
 			set it = it + 1;
-		END WHILE;
-		
+		END WHILE diasWhile;		
     END LOOP;
     
     /* Cierro cursor. */
