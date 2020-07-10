@@ -16,12 +16,15 @@ Puede haber distintas estrategias para crear turnos libres. Hay hospitales públi
 para cada servicio y para períodos futuros de extensión fija; esto implica la imposición de restricciones 
 temporales para solicitar turnos, ya que por ejemplo el último día hábil de un mes se generan los turnos 
 libres para el mes siguiente, y los pacientes deben pedir turnos los primeros días del mes con el riesgo 
-de que se agoten... Otra posibilidad más flexible sería que se generen turnos para cada médico en cada 
+de que se agoten...
+
+* Otra posibilidad más flexible sería que se generen turnos para cada médico en cada 
 servicio cuando se pida un turno y no exista ninguno libre, con la cantidad de días a generar turnos 
 como parámetro de entrada.
 
 Para la última opción, el procedimiento debería recibir como parámetros un identificador de atención y una 
 cantidad de días del período a generarle turnos libres al médico en el servicio que representa la atención. 
+
 Hay que investigar en MySQL las funciones con fechas para manejar días de semana de una fecha y suma de días.
 A partir del día siguiente al último turno que haya registrado para un médico que no tiene turnos libres, 
 hay que definir un cursor para obtener todos los DíaHorario çorrespondientes al identificador de atención
