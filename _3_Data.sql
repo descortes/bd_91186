@@ -54,7 +54,11 @@ INSERT INTO `tarea5`.`Servicio` (`nombre`) VALUES ('Pediatría');
 
 -- Atención
 INSERT INTO Atencion (idServ, dniMed,   duracionTurno) VALUES (1, 33537549, '00:30');
+INSERT INTO Atencion (idServ, dniMed,   duracionTurno) VALUES (2, 33537549, '01:00');
 
 -- Horarios de atención.
 INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (1, '09:00:00', '12:00:00');
 INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (1, '14:00:00', '16:00:00');
+
+-- Excepciones
+INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) VALUES (33537549,'1900-01-02','1900-01-03','10:00','11:45');
