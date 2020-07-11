@@ -38,7 +38,10 @@ CREATE PROCEDURE sp_CreaTurnos
 	idAtencion   int,
 	cantidadDias int
 )
-BEGIN
+Proc_sp_CreaTurnos:BEGIN
+	
+	 
+		
 	DECLARE done INT DEFAULT FALSE; /* Por workaround de un bug. */
 	
 	/* Horarios en los que atiende el medico */
@@ -48,6 +51,12 @@ BEGIN
     DECLARE cursorHorario CURSOR FOR SELECT horaDesde, horaHasta FROM HorarioAtencion WHERE idAt = idAtencion;
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; /* Por workaround de un bug. */
+
+	/* Si existe turno/s libre/s entonces no se crean nuevos turnos*/
+	 SELECT COUNT(*) INTO @existeTurno FROM Turno WHERE idAt = idAtencion AND dniPac IS NULL;
+	 IF @existeTurno > 0 THEN
+	  LEAVE Proc_sp_CreaTurnos;
+    END IF;
 
 	/* Para la atenci�n del par�metro,  buscamos el �ltimo turno que tenga.*/
     /* Buscamos la fecha del �ltimo turno, y le sumamos un d�a, para saber desde d�nde arrancar. */
