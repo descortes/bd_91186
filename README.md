@@ -1,52 +1,61 @@
 
 Definir una base de datos con el esquema representado, y un procedimiento almacenado para generar turnos libres 
-para médicos en servicios a partir de sus días de semana y horarios de atención. Consultar por la estrategia 
-para decidir cuándo y cómo se generan los turnos libres invocando el procedimiento almacenado.
-Tener en cuenta que para generar los turnos deberá usar un cursor dentro del procedimiento, y funciones de 
+para mÃ©dicos en servicios a partir de sus dÃ­as de semana y horarios de atenciÃ³n. Consultar por la estrategia 
+para decidir cuÃ¡ndo y cÃ³mo se generan los turnos libres invocando el procedimiento almacenado.
+Tener en cuenta que para generar los turnos deberÃ¡ usar un cursor dentro del procedimiento, y funciones de 
 fechas y tiempo propias de MySQL.
 
 --------------------------------------------------------------------------------------------------------------
 	
-Efectivamente, si un turno tiene el dni de paciente nulo, significa que está libre. Cuando se asigna un 
-turno a un paciente se registra el dni del paciente al que se le asignó...
+Efectivamente, si un turno tiene el dni de paciente nulo, significa que estÃ¡ libre. Cuando se asigna un 
+turno a un paciente se registra el dni del paciente al que se le asignÃ³...
 
 --------------------------------------------------------------------------------------------------------------
 
-Puede haber distintas estrategias para crear turnos libres. Hay hospitales públicos que generan turnos libres 
-para cada servicio y para períodos futuros de extensión fija; esto implica la imposición de restricciones 
-temporales para solicitar turnos, ya que por ejemplo el último día hábil de un mes se generan los turnos 
-libres para el mes siguiente, y los pacientes deben pedir turnos los primeros días del mes con el riesgo 
+Puede haber distintas estrategias para crear turnos libres. Hay hospitales pÃºblicos que generan turnos libres 
+para cada servicio y para perÃ­odos futuros de extensiÃ³n fija; esto implica la imposiciÃ³n de restricciones 
+temporales para solicitar turnos, ya que por ejemplo el Ãºltimo dÃ­a hÃ¡bil de un mes se generan los turnos 
+libres para el mes siguiente, y los pacientes deben pedir turnos los primeros dÃ­as del mes con el riesgo 
 de que se agoten...
 
-* Otra posibilidad más flexible sería que se generen turnos para cada médico en cada 
-servicio cuando se pida un turno y no exista ninguno libre, con la cantidad de días a generar turnos 
-como parámetro de entrada.
+* Otra posibilidad mÃ¡s flexible serÃ­a que se generen turnos para cada mÃ©dico en cada 
+servicio cuando se pida un turno y no exista ninguno libre, con la cantidad de dÃ­as a generar turnos 
+como parÃ¡metro de entrada.
 
-Para la última opción, el procedimiento debería recibir como parámetros un identificador de atención y una 
-cantidad de días del período a generarle turnos libres al médico en el servicio que representa la atención. 
+Para la Ãºltima opciÃ³n, el procedimiento deberÃ­a recibir como parÃ¡metros un identificador de atenciÃ³n y una 
+cantidad de dÃ­as del perÃ­odo a generarle turnos libres al mÃ©dico en el servicio que representa la atenciÃ³n. 
 
-Hay que investigar en MySQL las funciones con fechas para manejar días de semana de una fecha y suma de días.
-A partir del día siguiente al último turno que haya registrado para un médico que no tiene turnos libres, 
-hay que definir un cursor para obtener todos los DíaHorario çorrespondientes al identificador de atención
-dentro del período, que no estén afectados por una excepción, y generar todos los turnos libres con un ciclo 
-que deberá usar la fecha de ese día y variar horas con una función de suma de tiempo que observe la duración 
-de turnos de la atención y la horaHasta del horario de atención...
+Hay que investigar en MySQL las funciones con fechas para manejar dÃ­as de semana de una fecha y suma de dÃ­as.
+A partir del dÃ­a siguiente al Ãºltimo turno que haya registrado para un mÃ©dico que no tiene turnos libres, 
+hay que definir un cursor para obtener todos los DÃ­aHorario Ã§orrespondientes al identificador de atenciÃ³n
+dentro del perÃ­odo, que no estÃ©n afectados por una excepciÃ³n, y generar todos los turnos libres con un ciclo 
+que deberÃ¡ usar la fecha de ese dÃ­a y variar horas con una funciÃ³n de suma de tiempo que observe la duraciÃ³n 
+de turnos de la atenciÃ³n y la horaHasta del horario de atenciÃ³n...
 
 --------------------------------------------------------------------------------------------------------------
 
+Resolucion:
 
+Para sp_CreaTurnos dado un idAt crea turnos segun la cantidad de dias pasados por parametro.
+Al momento de crear los turnos de un medico,
+1. Se valida que los turnos esten dentro del horario de atencion del medico y cada turno tiene una duracion fija segun el valor del campo *duracionTurno* de la tabla **Atencion**.
+2. Si un medico no tiene turnos asignados (no existe en la tabla **Turnos**), entonces se crean los turnos desde el dia de la fecha actual.
+3. Si un medico tiene turnos asignados y desea agregar mas, se toma la ultima fecha de referencia en la tabla **Turno** y se agregan los nuevos. 
 
+```sql
+call sp_CreaTurnos(1 /* id-atencion */, 1 /* dï¿½as */);
+```
 
 "Glosario""
 
 Tablas:
 
-Persona:         Contiene los datos de las personas(paciente y/o médicos).
-DirE:            Contiene las direcciones electrónicas asociados a una persona por su dni.
+Persona:         Contiene los datos de las personas(paciente y/o mÃ©dicos).
+DirE:            Contiene las direcciones electrÃ³nicas asociados a una persona por su dni.
 Domicilio:       Contiene los datos de o los domicilio/s de una persona dado su dni.
 Servicio:        Contiene los nombres de los servicio disponibles en el establecimiento.
-Atencion:        Contiene los datos de la atención de un paciente, así como el dni del médico que lo atiende, el servicio que necesita y la duración de ese turno.
-Excepcion:       Contiene los datos de los días y horas que se ausenta el médico. Si no existe horaDesde, se toma desde inicio del dia?, hasta el horaHasta, idem las otras combinaciones?.
+Atencion:        Contiene los datos de la atenciÃ³n de un paciente, asÃ­ como el dni del mÃ©dico que lo atiende, el servicio que necesita y la duraciÃ³n de ese turno.
+Excepcion:       Contiene los datos de los dÃ­as y horas que se ausenta el mÃ©dico. Si no existe horaDesde, se toma desde inicio del dia?, hasta el horaHasta, idem las otras combinaciones?.
 HorarioAtencion: 
-DiaHorario:      Contiene el día de la semana que corresponde con el idHorario.
+DiaHorario:      Contiene el dÃ­a de la semana que corresponde con el idHorario.
 Turno:           Contiene el turno  asignado a un paciente.
