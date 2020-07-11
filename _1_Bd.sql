@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `Atencion` (
   `idAt`          int NOT NULL AUTO_INCREMENT,
   `idServ`        int NOT NULL,
   `dniMed`        int NOT NULL,  
-  `duracionTurno` int NOT NULL,
+  `duracionTurno` time NOT NULL,
   PRIMARY KEY (`idAt`),
   CONSTRAINT `AtencionServicio` FOREIGN KEY (`idServ`) REFERENCES `Servicio` (`idServ`) ON UPDATE CASCADE,
   CONSTRAINT `AtencionMedico` FOREIGN KEY (`dniMed`) REFERENCES `Persona` (`dni`) ON UPDATE CASCADE
