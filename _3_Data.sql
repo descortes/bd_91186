@@ -61,4 +61,5 @@ INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (1, '09:00:00', 
 INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (1, '14:00:00', '16:00:00');
 
 -- Excepciones
-INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) VALUES (33537549,'1900-01-02','1900-01-03','10:00','11:45');
+INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) 
+    VALUES (33537549,'1900-01-02','1900-01-03','10:00','11:45');
