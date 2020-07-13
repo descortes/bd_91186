@@ -1,4 +1,6 @@
 INSERT INTO `tarea5`.`Persona` (`dni`, `nombre`, `celular`, `matricula`, `fechaNac`) VALUES (33537549, 'Dr. Adrián Gabriel Cavaiuolo', '1123167897', '91186', '1981-11-04');
+INSERT INTO `tarea5`.`Persona` (`dni`, `nombre`, `celular`, `matricula`, `fechaNac`) VALUES (35572166, 'Dr. Mauro Oscar Cortés',       '1155698746', '92436', '1989-03-16');
+INSERT INTO `tarea5`.`Persona` (`dni`, `nombre`, `celular`, `matricula`, `fechaNac`) VALUES (34411264, 'Dr. Alberto Zárate',           '1147552145', '92436', '1984-06-21');
 INSERT INTO `tarea5`.`Persona` (`dni`, `nombre`, `celular`, `matricula`, `fechaNac`) VALUES (13537549, 'Trenton Snook',                '2223261897', null, '1981-01-02');
 INSERT INTO `tarea5`.`Persona` (`dni`, `nombre`, `celular`, `matricula`, `fechaNac`) VALUES (22537549, 'Johnathon Delawder',           '3323365897', null, '1982-01-13');
 INSERT INTO `tarea5`.`Persona` (`dni`, `nombre`, `celular`, `matricula`, `fechaNac`) VALUES (12337549, 'Art Talkington',               '4425563897', null, '1983-02-25');
@@ -53,13 +55,21 @@ INSERT INTO `tarea5`.`Servicio` (`nombre`) VALUES ('Enfermería');
 INSERT INTO `tarea5`.`Servicio` (`nombre`) VALUES ('Pediatría');
 
 -- Atención
-INSERT INTO Atencion (idServ, dniMed,   duracionTurno) VALUES (1, 33537549, '00:30');
-INSERT INTO Atencion (idServ, dniMed,   duracionTurno) VALUES (2, 33537549, '01:00');
+INSERT INTO Atencion (idServ, dniMed, duracionTurno) VALUES (3, 33537549, '00:30');
+INSERT INTO Atencion (idServ, dniMed, duracionTurno) VALUES (4, 33537549, '01:00');
+
+INSERT INTO Atencion (idServ, dniMed, duracionTurno) VALUES (3, 35572166, '00:25');
+INSERT INTO Atencion (idServ, dniMed, duracionTurno) VALUES (4, 35572166, '00:35');
 
 -- Horarios de atención.
 INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (1, '09:00:00', '12:00:00');
 INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (1, '14:00:00', '16:00:00');
 
+INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (2, '09:00:00', '13:00:00');
+INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (3, '14:00:00', '18:00:00');
+INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (4, '14:00:00', '18:00:00');
+
+
 -- Excepciones
 INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) 
-    VALUES (33537549,'1900-01-02','1900-01-03','10:00','11:45');
+    VALUES (33537549,'2020-07-10','2020-07-20','10:00','11:45');

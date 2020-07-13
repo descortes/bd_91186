@@ -76,7 +76,7 @@ CREATE PROCEDURE sp_TurnosDias
 )
 BEGIN
 	/* Declaracion de variables y valores por default. */
-		DECLARE it int DEFAULT 0;
+	DECLARE it int DEFAULT 0;
 	/* Bucle por cantidad de dias*/
 	diasWhile : WHILE it < cantidadDias DO
 		SET @horaTurno = hDesde;
