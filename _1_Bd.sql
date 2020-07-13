@@ -1,3 +1,10 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         8.0.13 - MySQL Community Server - GPL
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             11.0.0.5919
+-- --------------------------------------------------------
+
 CREATE DATABASE IF NOT EXISTS `tarea5`;
 
 USE `tarea5`;

@@ -72,4 +72,12 @@ INSERT INTO HorarioAtencion (idAt, horaDesde, horaHasta) VALUES (4, '14:00:00', 
 
 -- Excepciones
 INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) 
-    VALUES (33537549,'2020-07-10','2020-07-20','10:00','11:45');
+    VALUES (33537549,ADDDATE(CURDATE(), INTERVAL 0 DAY),ADDDATE(CURDATE(), INTERVAL 2 DAY),'10:00','11:45');
+
+# El día 3, da horarios solo hasta las 10:00 
+INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) 
+    VALUES (33537549,ADDDATE(CURDATE(), INTERVAL 3 DAY),ADDDATE(CURDATE(), INTERVAL 3 DAY),'10:00',NULL);
+    
+# El día 4, solo puede dar turno desde las 15:00 en adelante
+INSERT INTO excepcion (dni,fechaDesde,fechaHasta,horaDesde,horaHasta) 
+    VALUES (33537549,ADDDATE(CURDATE(), INTERVAL 4 DAY),ADDDATE(CURDATE(), INTERVAL 4 DAY),NULL,'15:00');

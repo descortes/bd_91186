@@ -32,10 +32,20 @@ BEGIN
 	  /* Rango fechaDesde - fechaHasta incluido los mismos*/
 	  IF diaTurno >= fechaDesd AND diaTurno <= fechaHast THEN
 		/* si no tiene asigando la franja horaria se asume todo el dia*/
-		IF horaDesd IS NULL OR horaHast IS NULL THEN 
+		IF horaDesd IS NULL AND horaHast IS NULL THEN 
 		 SET respuesta = FALSE;
 		 LEAVE loop_excepcion;
 	   END IF;
+	   /* para turnos desde que comienza el día hasta un limite superior*/
+	   IF horaDesd IS NULL AND horaTurno < HoraHast THEN 
+		 SET respuesta = FALSE;
+		 LEAVE loop_excepcion;
+	   END IF;
+		   /* para turnos desde limite inferior hasta que termina el día*/
+	   IF horaHast IS NULL AND ADDTIME(horaTurno,duracionTurno)> horaDesd THEN 
+		 SET respuesta = FALSE;
+		 LEAVE loop_excepcion;
+	   END IF;   
 	   /* si esta parcialmente contenido por el limite inferior*/
 	   IF horaTurno<=horaDesd AND ADDTIME(horaTurno,duracionTurno)> horaDesd THEN
 		 SET respuesta = FALSE;
@@ -130,13 +140,13 @@ Proc_sp_CreaTurnos:BEGIN
     
     /* Si existe turno/s libre/s entonces no se crean nuevos turnos*/
 	IF @existeTurno > 0 THEN		
-        select 'Existen turnos libres para esa atención.';
+        select 'Existen turnos libres para esa atención.' AS Respuesta;
         leave Proc_sp_CreaTurnos;
     END IF;
 
 	/* Para la atencion del parametro,  buscamos el ultimo turno que tenga.*/
     /* Buscamos la fecha del ultimo turno, y le sumamos un dia, para saber desde donde arrancar. */
-    # Se tiene que settear un fecha fija para que sea deterministico 
+    # Se tendria que settear un fecha fija para que sea deterministico
 	SELECT DATE_ADD( IFNULL(Max(fecha), CURDATE()), INTERVAL 1 DAY) INTO @primerDia FROM Turno WHERE idAt = idAtencion;
 	/*Cada idAt tiene una duracion del turno asignada*/
 	SELECT duracionTurno, dniMed INTO @duracionDelTurno, @dniMedico FROM atencion WHERE idAt = idAtencion;
@@ -168,4 +178,4 @@ END$$
 delimiter ;
 
 /* Lo ejecuto para probar. */
-CALL sp_CreaTurnos(1 /* id-atencion */, 3 /* dias */);
+CALL sp_CreaTurnos(1 /* id-atencion */, 5 /* dias */);
